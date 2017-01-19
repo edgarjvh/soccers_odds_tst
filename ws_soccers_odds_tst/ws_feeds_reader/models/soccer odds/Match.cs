@@ -35,5 +35,22 @@ namespace ws_feeds_reader.models.socccer_odds
 
         [XmlElement("visitorteam")]
         public Team VisitorTeam { get; set; }
+
+        [XmlElement("events")]
+        public List<Event> Events { get; set; }
+
+        [XmlElement("ht")]
+        public HalfTime HalfTime { get; set; }
+
+        [XmlElement("ft")]
+        public FinishTime FinishTime { get; set; }
+
+        [XmlElement("odds")]
+        public Odds Odds { get; set; }
+
+        public Match()
+        {
+            Events = new List<Event>();
+        }
     }
 }

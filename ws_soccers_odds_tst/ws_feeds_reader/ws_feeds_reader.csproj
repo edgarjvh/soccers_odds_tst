@@ -62,9 +62,18 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="models\soccer odds\Bookmaker.cs" />
     <Compile Include="models\soccer odds\Category.cs" />
+    <Compile Include="models\soccer odds\Event.cs" />
+    <Compile Include="models\soccer odds\FinishTime.cs" />
+    <Compile Include="models\soccer odds\HalfTime.cs" />
     <Compile Include="models\soccer odds\Match.cs" />
     <Compile Include="models\soccer odds\Matches.cs" />
+    <Compile Include="models\soccer odds\Odd.cs" />
+    <Compile Include="models\soccer odds\OddHandicap.cs" />
+    <Compile Include="models\soccer odds\Odds.cs" />
+    <Compile Include="models\soccer odds\OddTotal.cs" />
+    <Compile Include="models\soccer odds\OddType.cs" />
     <Compile Include="models\soccer odds\Scores.cs" />
     <Compile Include="models\soccer odds\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +89,10 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="models\soccer inplay\" />
+    <Folder Include="models\soccer livescore\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

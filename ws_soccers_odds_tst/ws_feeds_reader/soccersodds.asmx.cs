@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Services;
 using System.Xml;
@@ -18,22 +19,29 @@ namespace ws_feeds_reader
 
     public class soccersodds : WebService
     {
-        [WebMethod]
-        public object ReadSoccersOddsFeed(string xmlUrl)
+        [WebMethod][XmlInclude(typeof(Scores))]
+        public object ReadSoccersOddsFeed(string url)
         {
             try
             {               
-                // validar que sea el deporte correcto leído por este método
-                XDocument xDoc = XDocument.Load(xmlUrl);
-                string sport = xDoc.Root.Attribute("sport").Value;
+                var request = WebRequest.Create(url);
+                var response = request.GetResponse();
 
-                if (sport.Equals("soccer"))
-                {
-                    var stream = File.Open(xmlUrl, FileMode.Open);
-                    XmlSerializer ser = new XmlSerializer(typeof(Scores));
-                    var result = ser.Deserialize(stream) as Scores;
-                    return result;
-                }
+                if (((HttpWebResponse)response).StatusCode == HttpStatusCode.OK)
+                {                    
+                    Stream dataStream = response.GetResponseStream();                    
+                    StreamReader reader = new StreamReader(dataStream);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Scores));
+
+                    Scores Scores = (Scores)serializer.Deserialize(reader);                    
+
+                    /* 
+                     * Colocar un punto de interrupción para analizar el objeto 'Scores'
+                     * De aquí en adelante comenzaría el procesado de inserción en la BD
+                     */
+
+                    return Scores;
+                    }                
                 else
                 {
                     return "incorrect sport";

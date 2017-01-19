@@ -13,7 +13,15 @@ namespace ws_feeds_reader.models.soccer_odds
         [XmlAttribute("sport")]
         public string Sport { get; set; }
 
+        [XmlAttribute("ts")]
+        public string TimeStamp { get; set; }
+
         [XmlElement("category")]
-        public Category Category { get; set; }
+        public List<Category> Categories { get; set; }
+
+        public Scores()
+        {
+            Categories = new List<Category>();
+        }
     }
 }
