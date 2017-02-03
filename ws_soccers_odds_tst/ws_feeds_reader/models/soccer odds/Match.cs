@@ -18,6 +18,9 @@ namespace ws_feeds_reader.models.socccer_odds
         [XmlAttribute("static_id")]
         public string StaticId { get; set; }
 
+        [XmlAttribute("venue")]
+        public string Stadium { get; set; }
+
         [XmlAttribute("date")]
         public string Date { get; set; }
 
@@ -51,6 +54,11 @@ namespace ws_feeds_reader.models.socccer_odds
         public Match()
         {
             Events = new List<Event>();
+            LocalTeam = new Team();
+            VisitorTeam = new Team();
+            HalfTime = new HalfTime();
+            FinishTime = new FinishTime();
+            Odds = new Odds();
         }
     }
 }

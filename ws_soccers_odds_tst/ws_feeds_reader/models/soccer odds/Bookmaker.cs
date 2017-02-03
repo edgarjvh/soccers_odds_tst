@@ -26,5 +26,12 @@ namespace ws_feeds_reader.models.socccer_odds
 
         [XmlElement("handicap")]
         public List<OddHandicap> Handicaps { get; set; }
+
+        public Bookmaker()
+        {
+            Odds = new List<Odd>();
+            Totals = new List<OddTotal>();
+            Handicaps = new List<OddHandicap>();
+        }
     }
 }
