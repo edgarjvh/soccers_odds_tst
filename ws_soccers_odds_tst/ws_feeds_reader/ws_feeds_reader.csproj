@@ -51,13 +51,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="soccersodds.asmx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="data\Procedure.cs" />
     <Compile Include="models\soccer odds\Bookmaker.cs" />
     <Compile Include="models\soccer odds\Category.cs" />
     <Compile Include="models\soccer odds\Event.cs" />
+    <Compile Include="models\soccer odds\Events.cs" />
     <Compile Include="models\soccer odds\FinishTime.cs" />
     <Compile Include="models\soccer odds\HalfTime.cs" />
     <Compile Include="models\soccer odds\Match.cs" />
@@ -69,6 +72,8 @@
     <Compile Include="models\soccer odds\OddType.cs" />
     <Compile Include="models\soccer odds\Scores.cs" />
     <Compile Include="models\soccer odds\Team.cs" />
+    <Compile Include="models\soccer odds\TvStation.cs" />
+    <Compile Include="models\soccer odds\TvStations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="soccersodds.asmx.cs">
       <DependentUpon>soccersodds.asmx</DependentUpon>

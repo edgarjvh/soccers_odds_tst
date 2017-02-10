@@ -18,7 +18,7 @@ namespace ws_feeds_reader
     public class soccersodds : WebService
     {
         [WebMethod][XmlInclude(typeof(Scores))]
-        public object ReadSoccersOddsFeed(string url)
+        public string SaveSoccerOddsLivescore(string url)
         {
             try
             {               
@@ -26,7 +26,7 @@ namespace ws_feeds_reader
                 var response = request.GetResponse();
 
                 if (((HttpWebResponse)response).StatusCode == HttpStatusCode.OK)
-                {                    
+                { 
                     Stream dataStream = response.GetResponseStream();                    
                     StreamReader reader = new StreamReader(dataStream);
                     XmlSerializer serializer = new XmlSerializer(typeof(Scores));
@@ -107,9 +107,9 @@ namespace ws_feeds_reader
                                                     match_localTeam_goals,
                                                     match_visitorteam_goals);
 
-                                    if (MATCH.Events.Count > 0)
+                                    if (MATCH.Events.List.Count > 0)
                                     {
-                                        foreach (Event _event in MATCH.Events)
+                                        foreach (Event _event in MATCH.Events.List)
                                         {
                                             if (_event.EventId != null)
                                             {
@@ -122,14 +122,19 @@ namespace ws_feeds_reader
                                                 long event_player_id = 0;
                                                 long.TryParse(_event.PlayerId, out event_player_id);
                                                 string event_player_name = _event.Player == null ? "" : _event.Player;
+
+                                                event_type = event_player_name.Contains("(pen.)") ? event_type + " (pen.)" : event_type;
+                                                event_type = event_player_name.Contains("(o.g.)") ? event_type + " (o.g.)" : event_type;
+                                                event_player_name = event_player_name.Replace("(pen.)", "").Trim().Replace("(o.g.)","").Trim();
+
                                                 long event_assist_id = 0;
                                                 long.TryParse(_event.AssistId, out event_assist_id);
                                                 string event_assist_name = _event.Assist == null ? "" : _event.Assist;
                                                 string event_result = _event.Result == null ? "" : _event.Result;
 
                                                 // ================= saving players into database ===================
-                                                proc.GetData("Player_save", event_player_id, event_player_name);
-                                                proc.GetData("Player_save", event_assist_id, event_assist_name);
+                                                proc.GetData("Players_save", event_player_id, event_player_name);
+                                                proc.GetData("Players_save", event_assist_id, event_assist_name);
                                                 // ==================================================================
 
                                                 // ================== saving events into database ===================
@@ -271,16 +276,91 @@ namespace ws_feeds_reader
                             }  
                         }                       
                     }
-                    return "soccer odd feed successfully saved!!!";
-                    }                
+                    return "1";
+                }                
                 else
                 {
-                    return "incorrect sport";
+                    return "0";
                 }
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "0";
+            }
+        }
+
+        [WebMethod]
+        [XmlInclude(typeof(Scores))]
+        public object saveSoccerTvStations(string url)
+        {
+            try
+            {
+                var request = WebRequest.Create(url);
+                var response = request.GetResponse();
+
+                if (((HttpWebResponse)response).StatusCode == HttpStatusCode.OK)
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Scores));
+
+                    Scores Scores = (Scores)serializer.Deserialize(reader);
+
+                    // ===============================================================
+
+                    Procedure proc = new Procedure();
+
+                    foreach (Category CATEGORY in Scores.Categories)
+                    {
+                        if (CATEGORY.Id != null)
+                        {
+                            long category_id = long.Parse(CATEGORY.Id);
+                            long category_gid = CATEGORY.GID == null ? 0 : long.Parse(CATEGORY.GID);
+                            string category_name = CATEGORY.Name == null ? "" : CATEGORY.Name;
+                            string category_file_group = CATEGORY.FileGroup == null ? "" : CATEGORY.FileGroup;
+                            int category_is_cup = CATEGORY.IsCup == null ? 0 : CATEGORY.IsCup.ToLower().Equals("false") ? 0 : 1;
+
+                            // ============= saving categories into database ==============
+                            proc.GetData(
+                                            "Categories_save",
+                                            category_id,
+                                            category_gid,
+                                            category_name,
+                                            category_file_group,
+                                            category_is_cup);
+                            // ============================================================
+
+                            foreach (Match MATCH in CATEGORY.Matches.List)
+                            {
+                                if (MATCH.Id != null)
+                                {
+                                    long match_id = 0;
+                                    long.TryParse(MATCH.Id, out match_id);
+
+                                    foreach (TvStation tv in MATCH.TvStations.List)
+                                    {
+                                        if (tv.Name != null)
+                                        {
+                                            // ============= saving tv stations into database ==============
+                                            proc.GetData("TvStations_save", tv.Name, match_id);
+                                            // ============================================================ 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    return "1";
+                }
+                else
+                {
+                    return "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "0";
             }
         }
     }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -40,7 +37,7 @@ namespace ws_feeds_reader.models.socccer_odds
         public Team VisitorTeam { get; set; }
 
         [XmlElement("events")]
-        public List<Event> Events { get; set; }
+        public Events Events { get; set; }
 
         [XmlElement("ht")]
         public HalfTime HalfTime { get; set; }
@@ -51,14 +48,18 @@ namespace ws_feeds_reader.models.socccer_odds
         [XmlElement("odds")]
         public Odds Odds { get; set; }
 
+        [XmlElement("tv_stations")]
+        public TvStations TvStations { get; set; }
+
         public Match()
         {
-            Events = new List<Event>();
+            Events = new Events();
             LocalTeam = new Team();
             VisitorTeam = new Team();
             HalfTime = new HalfTime();
             FinishTime = new FinishTime();
             Odds = new Odds();
+            TvStations = new TvStations();
         }
     }
 }

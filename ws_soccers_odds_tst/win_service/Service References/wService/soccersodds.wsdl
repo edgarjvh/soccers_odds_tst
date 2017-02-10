@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://feedsreader.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://feedsreader.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://feedsreader.org/">
+      <s:element name="SaveSoccerOddsLivescore">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveSoccerOddsLivescoreResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveSoccerOddsLivescoreResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="saveSoccerTvStations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="saveSoccerTvStationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="saveSoccerTvStationsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Scores">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="category" type="tns:Category" />
+        </s:sequence>
+        <s:attribute name="sport" type="s:string" />
+        <s:attribute name="ts" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Category">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="matches" type="tns:Matches" />
+        </s:sequence>
+        <s:attribute name="id" type="s:string" />
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="gid" type="s:string" />
+        <s:attribute name="file_group" type="s:string" />
+        <s:attribute name="iscup" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Matches">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="match" type="tns:Match" />
+        </s:sequence>
+        <s:attribute name="date" type="s:string" />
+        <s:attribute name="formatted_date" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Match">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="localteam" type="tns:Team" />
+          <s:element minOccurs="0" maxOccurs="1" name="visitorteam" type="tns:Team" />
+          <s:element minOccurs="0" maxOccurs="1" name="events" type="tns:Events" />
+          <s:element minOccurs="0" maxOccurs="1" name="ht" type="tns:HalfTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="ft" type="tns:FinishTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="odds" type="tns:Odds" />
+          <s:element minOccurs="0" maxOccurs="1" name="tv_stations" type="tns:TvStations" />
+        </s:sequence>
+        <s:attribute name="id" type="s:string" />
+        <s:attribute name="fix_id" type="s:string" />
+        <s:attribute name="static_id" type="s:string" />
+        <s:attribute name="venue" type="s:string" />
+        <s:attribute name="date" type="s:string" />
+        <s:attribute name="formatted_date" type="s:string" />
+        <s:attribute name="time" type="s:string" />
+        <s:attribute name="status" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Team">
+        <s:attribute name="id" type="s:string" />
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="goals" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Events">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="event" type="tns:Event" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Event">
+        <s:attribute name="eventid" type="s:string" />
+        <s:attribute name="type" type="s:string" />
+        <s:attribute name="minute" type="s:string" />
+        <s:attribute name="extra_min" type="s:string" />
+        <s:attribute name="team" type="s:string" />
+        <s:attribute name="player" type="s:string" />
+        <s:attribute name="result" type="s:string" />
+        <s:attribute name="playerId" type="s:string" />
+        <s:attribute name="assist" type="s:string" />
+        <s:attribute name="assistid" type="s:string" />
+      </s:complexType>
+      <s:complexType name="HalfTime">
+        <s:attribute name="score" type="s:string" />
+      </s:complexType>
+      <s:complexType name="FinishTime">
+        <s:attribute name="score" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Odds">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="type" type="tns:OddType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OddType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="bookmaker" type="tns:Bookmaker" />
+        </s:sequence>
+        <s:attribute name="id" type="s:string" />
+        <s:attribute name="value" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Bookmaker">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="odd" type="tns:Odd" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="total" type="tns:OddTotal" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="handicap" type="tns:OddHandicap" />
+        </s:sequence>
+        <s:attribute name="id" type="s:string" />
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="extra" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Odd">
+        <s:attribute name="id" type="s:string" />
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="value" type="s:string" />
+      </s:complexType>
+      <s:complexType name="OddTotal">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="odd" type="tns:Odd" />
+        </s:sequence>
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="main" type="s:string" />
+      </s:complexType>
+      <s:complexType name="OddHandicap">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="odd" type="tns:Odd" />
+        </s:sequence>
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="main" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TvStations">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="tv" type="tns:TvStation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TvStation">
+        <s:attribute name="name" type="s:string" />
+      </s:complexType>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="anyType" nillable="true" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SaveSoccerOddsLivescoreSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveSoccerOddsLivescore" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoccerOddsLivescoreSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveSoccerOddsLivescoreResponse" />
+  </wsdl:message>
+  <wsdl:message name="saveSoccerTvStationsSoapIn">
+    <wsdl:part name="parameters" element="tns:saveSoccerTvStations" />
+  </wsdl:message>
+  <wsdl:message name="saveSoccerTvStationsSoapOut">
+    <wsdl:part name="parameters" element="tns:saveSoccerTvStationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoccerOddsLivescoreHttpGetIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoccerOddsLivescoreHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="saveSoccerTvStationsHttpGetIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="saveSoccerTvStationsHttpGetOut">
+    <wsdl:part name="Body" element="tns:anyType" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoccerOddsLivescoreHttpPostIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoccerOddsLivescoreHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="saveSoccerTvStationsHttpPostIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="saveSoccerTvStationsHttpPostOut">
+    <wsdl:part name="Body" element="tns:anyType" />
+  </wsdl:message>
+  <wsdl:portType name="soccersoddsSoap">
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <wsdl:input message="tns:SaveSoccerOddsLivescoreSoapIn" />
+      <wsdl:output message="tns:SaveSoccerOddsLivescoreSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <wsdl:input message="tns:saveSoccerTvStationsSoapIn" />
+      <wsdl:output message="tns:saveSoccerTvStationsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="soccersoddsHttpGet">
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <wsdl:input message="tns:SaveSoccerOddsLivescoreHttpGetIn" />
+      <wsdl:output message="tns:SaveSoccerOddsLivescoreHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <wsdl:input message="tns:saveSoccerTvStationsHttpGetIn" />
+      <wsdl:output message="tns:saveSoccerTvStationsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="soccersoddsHttpPost">
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <wsdl:input message="tns:SaveSoccerOddsLivescoreHttpPostIn" />
+      <wsdl:output message="tns:SaveSoccerOddsLivescoreHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <wsdl:input message="tns:saveSoccerTvStationsHttpPostIn" />
+      <wsdl:output message="tns:saveSoccerTvStationsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="soccersoddsSoap" type="tns:soccersoddsSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <soap:operation soapAction="http://feedsreader.org/SaveSoccerOddsLivescore" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <soap:operation soapAction="http://feedsreader.org/saveSoccerTvStations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="soccersoddsSoap12" type="tns:soccersoddsSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <soap12:operation soapAction="http://feedsreader.org/SaveSoccerOddsLivescore" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <soap12:operation soapAction="http://feedsreader.org/saveSoccerTvStations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="soccersoddsHttpGet" type="tns:soccersoddsHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <http:operation location="/SaveSoccerOddsLivescore" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <http:operation location="/saveSoccerTvStations" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="soccersoddsHttpPost" type="tns:soccersoddsHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="SaveSoccerOddsLivescore">
+      <http:operation location="/SaveSoccerOddsLivescore" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveSoccerTvStations">
+      <http:operation location="/saveSoccerTvStations" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="soccersodds">
+    <wsdl:port name="soccersoddsSoap" binding="tns:soccersoddsSoap">
+      <soap:address location="http://localhost:10400/soccersodds.asmx" />
+    </wsdl:port>
+    <wsdl:port name="soccersoddsSoap12" binding="tns:soccersoddsSoap12">
+      <soap12:address location="http://localhost:10400/soccersodds.asmx" />
+    </wsdl:port>
+    <wsdl:port name="soccersoddsHttpGet" binding="tns:soccersoddsHttpGet">
+      <http:address location="http://localhost:10400/soccersodds.asmx" />
+    </wsdl:port>
+    <wsdl:port name="soccersoddsHttpPost" binding="tns:soccersoddsHttpPost">
+      <http:address location="http://localhost:10400/soccersodds.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
